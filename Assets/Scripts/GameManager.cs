@@ -4,13 +4,36 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+	NpcGenerator npcGenerator;
+
+	[Header("Variables")]
+	[SerializeField]
+	private int npcCount = 10;
+
+	void Awake()
+	{
+		npcGenerator = this.GetComponent<NpcGenerator> ();
+		this.StartCoroutine (this.SetUpGame());
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+
+	private IEnumerator SetUpGame()
+	{
+		// Initialize Npc Generator
+		this.npcGenerator.StartCoroutine (this.npcGenerator.Initialize());
+		yield return new WaitUntil (() => this.npcGenerator.GetIsInitiliazed());
+
+		// Create and instantiate npcs
+		for (int i = 0; i < npcCount; i++) 
+		{
+			this.npcGenerator.CreateNpc ();
+		}
+
+		yield return null;
+	}
+
+	void Update () 
+	{
 		
 	}
 }

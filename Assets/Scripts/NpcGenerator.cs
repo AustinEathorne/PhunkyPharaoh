@@ -9,39 +9,80 @@ public class NpcGenerator : MonoBehaviour
 	private bool isInitialized = false;
 
 	// Create new list & dictionary for new dialogue, each list holds a set of lines for the npc to say, dictionary responses (List<string>) corresponds to the lineIndex for the dialogue list
+	private List<string> dialogue0 = new List<string>();
+	private Dictionary<int, List<string>> dialogueResponses0 = new Dictionary<int, List<string>>();
+
 	private List<string> dialogue1 = new List<string>();
 	private Dictionary<int, List<string>> dialogueResponses1 = new Dictionary<int, List<string>>();
 
+	private int dialogueCount = 2;
 
-	private IEnumerator Start()
+	[SerializeField]
+	private GameObject npcPrefab;
+
+	[Header("Names")]
+	[SerializeField]
+	private List<string> npcNames = new List<string>();
+
+	[Header("Sprites")]
+	[SerializeField]
+	private List<Sprite> npcSprites = new List<Sprite>();
+
+
+
+
+	public IEnumerator Initialize()
 	{
-		List<string> responses = new List<string>();
 		// Add new dialogue here
+		List<string> responses = new List<string>();
 
-		//Dialogue1
-		//Line0
-		dialogue1.Add ("Hey, how's it going?"); // dialogue
+		// Dialogue0
+		// Line0
+		dialogue0.Add ("Hey, how's it going?"); // dialogue
+		responses = new List<string>(); //responses
+		responses.Add ("Great");
+		responses.Add ("Alright");
+		responses.Add ("Bad");
+		dialogueResponses0.Add (0, responses); //dicitionary for responses
+		// Line1
+		dialogue0.Add ("What's your favourite colour?");
+		responses = new List<string>();
+		responses.Add ("Red");
+		responses.Add ("Green");
+		responses.Add ("Blue");
+		dialogueResponses0.Add (1, responses);
+		// Line2
+		dialogue0.Add ("You have nice hair!");
+		responses = new List<string>();
+		responses.Add ("Nah b");
+		responses.Add ("Thanks!");
+		responses.Add ("Nah, you have nice hair.");
+		dialogueResponses0.Add (2, responses);
+
+		responses.Clear ();
+
+		// Dialogue1
+		// Line0
+		dialogue1.Add ("Test1"); // dialogue
 		responses = new List<string>(); //responses
 		responses.Add ("Great");
 		responses.Add ("Alright");
 		responses.Add ("Bad");
 		dialogueResponses1.Add (0, responses); //dicitionary for responses
-		//Line1
-		dialogue1.Add ("What's your favourite colour?");
+		// Line1
+		dialogue1.Add ("Test2");
 		responses = new List<string>();
 		responses.Add ("Red");
 		responses.Add ("Green");
 		responses.Add ("Blue");
 		dialogueResponses1.Add (1, responses);
-		//Line2
-		dialogue1.Add ("You have nice hair!");
+		// Line2
+		dialogue1.Add ("Test3");
 		responses = new List<string>();
 		responses.Add ("Nah b");
 		responses.Add ("Thanks!");
 		responses.Add ("Nah, you have nice hair.");
 		dialogueResponses1.Add (2, responses);
-
-		//Dialogue2
 
 
 		this.isInitialized = true;
@@ -51,5 +92,36 @@ public class NpcGenerator : MonoBehaviour
 	public bool GetIsInitiliazed()
 	{
 		return this.isInitialized;
+	}
+
+	// Called from GameManager x amount of times
+	public void CreateNpc()
+	{
+		// Instantiate & set name
+		GameObject npc = GameObject.Instantiate(npcPrefab, this.transform.position, Quaternion.identity);
+		npc.name = npcNames[Random.Range(0, npcNames.Count)];
+
+		// Set dialogue
+		List<string> chosenDialogue = new List<string>();
+		Dictionary<int, List<string>> chosenDialogueResponses = new Dictionary<int, List<string>>();
+		switch(Random.Range(0, dialogueCount))
+		{
+		case 0:
+			chosenDialogue = dialogue0;
+			chosenDialogueResponses = dialogueResponses0;
+			break;
+
+		case 1:
+			chosenDialogue = dialogue1;
+			chosenDialogueResponses = dialogueResponses1;
+			break;
+
+		default:
+			break;
+		}
+
+		// Initialize
+		NpcClass npcClass = npc.GetComponent<NpcClass> ();
+		npcClass.Initialize (npc.name, npcSprites[Random.Range(0, npcSprites.Count)], chosenDialogue, chosenDialogueResponses);
 	}
 }
