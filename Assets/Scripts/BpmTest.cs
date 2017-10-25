@@ -17,7 +17,7 @@ public class BpmTest : MonoBehaviour {
 				this.GetComponent<SpriteRenderer> ().color = Color.red;
 
 			isRed = !isRed;
-			Debug.Log ("On Beat");
+			//Debug.Log ("On Beat");
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour 
 {
@@ -35,13 +36,18 @@ public class AudioManager : MonoBehaviour
 	public static bool isOnEigthBeat = false;
 
 	// beat counts
-	private float timeBetweenBeats = 0.0f;
+	public static float timeBetweenBeats = 0.0f;
+	private float currentTimeBetweenBeats = 0.0f;
+	private float nextTimeBetweenBeats = 0.0f;
+	private float elapsedTime = 0.0f;
 	private int beatCounter = 0;
 
 	private int previousBeatCount = 0;
 	private int previousHalfBeatCount = 0;
 	private int previousQuarterBeatCount = 0;
-	private int previousEigthBeatCount = 0;
+	private int previousEighthBeatCount = 0;
+
+	private float goodHitSeconds = 0.15f; // seconds before and after a beat that a hit is still good, set in initialize
 
 	// Fade Speeds (Serialized)
 	[Header("Fade Speed")]
@@ -49,8 +55,13 @@ public class AudioManager : MonoBehaviour
 	private float fadeSpeed = 5.0f;
 
 	// Bools
-	private bool isPaused = false;
-	private bool isInitialized = false;
+	public static bool isPaused = false;
+	public static bool isInitialized = false;
+	public static bool hasStarted = false; // for elapsed time counter
+
+	[Header("Test")]
+	[SerializeField]
+	private Text hitText;
 
 	//Get audio start delay from manager, needed? just call startaudio from manager when the game is ready?
 
@@ -66,6 +77,9 @@ public class AudioManager : MonoBehaviour
 	public  IEnumerator InitializeAudioManager()
 	{
 		timeBetweenBeats = 60.0f/levelAudioBpm[selectedSongIndex];
+		this.goodHitSeconds = timeBetweenBeats * (GameManager.goodPercentage / 100.0f);
+
+		Debug.Log ("Time Between Beats: " + timeBetweenBeats.ToString());
 
 		yield return null;
 	}
@@ -73,13 +87,17 @@ public class AudioManager : MonoBehaviour
 	// Call to start new audio
 	public  IEnumerator StartAudio(float startDelay)
 	{
-		yield return new WaitUntil (() => this.isInitialized == true);
+		yield return new WaitUntil (() => isInitialized == true);
 
 		this.beatCounter = 0;
 
-		mainSource.PlayScheduled (AudioSettings.dspTime + startDelay);
+		this.mainSource.PlayScheduled (AudioSettings.dspTime + startDelay);
 
 		InvokeRepeating("BeatCounter", startDelay, timeBetweenBeats);
+
+		yield return new WaitForSeconds (startDelay - timeBetweenBeats);
+
+		hasStarted = true;
 
 		yield return null;
 	}
@@ -87,15 +105,15 @@ public class AudioManager : MonoBehaviour
 	// Play/Pause the given audio source
 	public void PlayPauseAudio(AudioSource audioSource)
 	{
-		if (this.isPaused) 
+		if (isPaused) 
 		{
 			audioSource.UnPause ();
-			this.isPaused = false;
+			isPaused = false;
 		} 
 		else 
 		{
 			audioSource.Pause ();
-			this.isPaused = true;
+			isPaused = true;
 		}
 	}
 
@@ -111,16 +129,35 @@ public class AudioManager : MonoBehaviour
 	// Count dem beatz
 	private void Update()
 	{
+		// Input Test
+		if(Input.GetKeyDown(KeyCode.Space))
+		{
+			float temp = GetPointValue();
+		}
+
+		if(!isPaused && hasStarted)
+			this.elapsedTime += Time.deltaTime;
+
+		// Debug.Log ("Elapsed Time: " + this.elapsedTime.ToString());
+
 		isOnBeat = this.GetBeat ();
 		isOnHalfBeat = this.GetHalfBeat ();
 		isOnQuarterBeat = this.GetQuarterBeat ();
-		isOnEigthBeat = this.GetEigthBeat ();
+		isOnEigthBeat = this.GetEighthBeat ();
 	}
 
 	private void BeatCounter()
 	{
-		if(!this.isPaused)
-			beatCounter += 1;
+		if (!isPaused)
+		{
+			this.beatCounter += 1;
+
+			this.currentTimeBetweenBeats += timeBetweenBeats;
+			this.nextTimeBetweenBeats = this.currentTimeBetweenBeats + timeBetweenBeats;
+
+			// Debug.Log ("current total time between beats: " + this.currentTimeBetweenBeats.ToString());
+			// Debug.Log ("next total time between beats: " + this.nextTimeBetweenBeats.ToString());
+		}
 	}
 
 	private bool GetBeat()
@@ -153,14 +190,42 @@ public class AudioManager : MonoBehaviour
 		return false;
 	}
 
-	private bool GetEigthBeat()
+	private bool GetEighthBeat()
 	{
-		if(this.beatCounter > previousEigthBeatCount)
+		if(this.beatCounter > previousEighthBeatCount)
 		{
-			previousEigthBeatCount = beatCounter + 7;
+			previousEighthBeatCount = beatCounter + 7;
 			return true;
 		}
 		return false;
+	}
+
+	public float GetCurrentTimeBetweenBeats()
+	{
+		return this.currentTimeBetweenBeats;
+	}
+
+	public float GetNextTimeBetweenBeats()
+	{
+		return this.nextTimeBetweenBeats;
+	}
+
+	public int GetPointValue()
+	{
+		if (this.elapsedTime <= this.currentTimeBetweenBeats + goodHitSeconds || this.elapsedTime >= this.nextTimeBetweenBeats - goodHitSeconds)
+		{
+			Debug.Log("Good Hit");
+			hitText.text = "Good";
+			Debug.Log("Elapsed Time: " + this.elapsedTime.ToString());
+			return GameManager.goodPoints;
+		}
+		else
+		{
+			Debug.Log("Bad Hit");
+			hitText.text = "Bad";
+			Debug.Log("Elapsed Time: " + this.elapsedTime.ToString());
+			return GameManager.badPoints;
+		}
 	}
 
 	// Fade the given audio source's audio clip in/out

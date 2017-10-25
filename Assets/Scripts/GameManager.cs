@@ -6,9 +6,17 @@ public class GameManager : MonoBehaviour {
 
 	NpcGenerator npcGenerator;
 
-	[Header("Variables")]
+	[Header("NPC Stuff")]
 	[SerializeField]
 	private int npcCount = 10;
+
+	[Header("Point Stuff")]
+	[SerializeField]
+	public static int goodPoints = 100;
+	[SerializeField]
+	public static int badPoints = 0;
+	[SerializeField]
+	public static float goodPercentage = 37.5f;
 
 	void Awake()
 	{
@@ -24,7 +32,7 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitUntil (() => this.npcGenerator.GetIsInitiliazed());
 
 		// Create and instantiate npcs
-		for (int i = 0; i < npcCount; i++) 
+		for (int i = 0; i < npcCount; i++)
 		{
 			this.npcGenerator.CreateNpc ();
 		}
@@ -32,8 +40,4 @@ public class GameManager : MonoBehaviour {
 		yield return null;
 	}
 
-	void Update () 
-	{
-		
-	}
 }
