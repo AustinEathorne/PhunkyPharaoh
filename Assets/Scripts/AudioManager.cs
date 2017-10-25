@@ -67,7 +67,7 @@ public class AudioManager : MonoBehaviour
 	{
 		timeBetweenBeats = 60.0f/levelAudioBpm[selectedSongIndex];
 
-		yield return null;
+		//yield return null;
 	}
 
 	// Call to start new audio
