@@ -42,9 +42,15 @@ public class DialogueManager : MonoBehaviour {
 
 	private IEnumerator Initialize()
 	{
-		this.currentLineIndex = 0;
-
 		yield return null;
+	}
+
+	// Call before starting a new conversation
+	public void ResetConversation()
+	{
+		this.currentLineIndex = 0;
+		this.currentResponseIndex = 0;
+		this.isWaitingForResponse = true;
 	}
 
 	// Controls the flow of the conversation

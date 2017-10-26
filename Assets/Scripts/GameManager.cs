@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour {
 
 	private IEnumerator RunDialogueSequence()
 	{
+		this.dialogueManager.ResetConversation();
 		isInDialogue = true;
 		this.dialogueManager.EnableDialogueUI(true);
 		yield return this.dialogueManager.StartCoroutine(this.dialogueManager.Converse(this.activeNpcs[0]));
