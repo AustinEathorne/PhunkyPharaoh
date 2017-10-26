@@ -79,19 +79,6 @@ public class TimerBar : MonoBehaviour {
 		{
 			this.StartCoroutine(this.ScaleCenterObject());
 		}
-		/*
-		if(this.isInitialized)
-		{
-			for(int i = 0; i < dotObjs.Count; i++)
-			{
-				dotObjs[i].localPosition = new Vector3(); //MAKE COROUNTINE AND USE MOVETOWARDS, USING DOTSPEED * TIME.DELTATIME, FUCK.
-				if(dotObjs[i].localPosition.x <= 0.0f)
-				{
-					dotObjs[i].localPosition = new Vector3(this.resetPosition, dotObjs[i].localPosition.y, dotObjs[i].localPosition.z);
-				}
-			}
-		}
-		*/
 	}
 
 	private IEnumerator MoveDotObj(RectTransform dotTransform)

@@ -9,8 +9,13 @@ public class GameManager : MonoBehaviour {
 	[Header("NPC Stuff")]
 	[SerializeField]
 	private int npcCount = 10;
+	private List<NpcClass> activeNpcs;
 
 	[Header("Point Stuff")]
+	[SerializeField]
+	private float playerPhunkLevel = 100.0f;
+	[SerializeField]
+	public static int answerPoints = 20;
 	[SerializeField]
 	public static int goodPoints = 100;
 	[SerializeField]
@@ -18,6 +23,12 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	public static float goodPercentage = 37.5f;
 
+	[Header("Dialogue")]
+	[SerializeField]
+	private DialogueManager dialogueManager;
+	public static bool isInDialogue = false;
+
+	[Header("Test")]
 	[SerializeField]
 	private GameObject anim;
 	private bool isIdle = true;
@@ -31,10 +42,11 @@ public class GameManager : MonoBehaviour {
 
 	private IEnumerator SetUpGame()
 	{
+		this.activeNpcs = new List<NpcClass>();
+
 		// Initialize Npc Generator
 		this.npcGenerator.StartCoroutine (this.npcGenerator.Initialize());
 		yield return new WaitUntil (() => this.npcGenerator.GetIsInitiliazed());
-
 
 		// Create and instantiate npcs
 		for (int i = 0; i < npcCount; i++)
@@ -45,12 +57,33 @@ public class GameManager : MonoBehaviour {
 		yield return null;
 	}
 
+	public void AddActiveNpc(NpcClass npc)
+	{
+		this.activeNpcs.Add(npc);
+	}
+
 	private void Update()
 	{
+		// Testing
 		if(Input.GetKeyDown(KeyCode.B))
 		{
 			anim.GetComponent<Animator>().SetBool("isIdle", !anim.GetComponent<Animator>().GetBool(0));
 		}
+		if(Input.GetKeyDown(KeyCode.S))
+		{
+			this.StartCoroutine(this.RunDialogueSequence());
+		}
 	}
 
+	private IEnumerator RunDialogueSequence()
+	{
+		isInDialogue = true;
+		this.dialogueManager.EnableDialogueUI(true);
+		yield return this.dialogueManager.StartCoroutine(this.dialogueManager.Converse(this.activeNpcs[0]));
+	}
+
+	public void IncreasePlayerPhunk(int phunkValue)
+	{
+		this.playerPhunkLevel += phunkValue;
+	}
 }

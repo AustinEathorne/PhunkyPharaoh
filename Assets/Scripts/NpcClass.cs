@@ -31,4 +31,9 @@ public class NpcClass : MonoBehaviour
 	{
 		return this.m_dialogueOptions[dialogueIndex];
 	}
+
+	public int GetDialogueCount()
+	{
+		return this.m_dialogueLines.Count;
+	}
 }

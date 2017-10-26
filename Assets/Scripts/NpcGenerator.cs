@@ -28,11 +28,13 @@ public class NpcGenerator : MonoBehaviour
 	[SerializeField]
 	private List<Sprite> npcSprites = new List<Sprite>();
 
-
+	private GameManager gameManager;
 
 
 	public IEnumerator Initialize()
 	{
+		gameManager = this.GetComponent<GameManager>();
+
 		// Add new dialogue here
 		List<string> responses = new List<string>();
 
@@ -59,7 +61,7 @@ public class NpcGenerator : MonoBehaviour
 		responses.Add ("Nah, you have nice hair.");
 		dialogueResponses0.Add (2, responses);
 
-		responses.Clear ();
+		responses = new List<string>();
 
 		// Dialogue1
 		// Line0
@@ -123,5 +125,7 @@ public class NpcGenerator : MonoBehaviour
 		// Initialize
 		NpcClass npcClass = npc.GetComponent<NpcClass> ();
 		npcClass.Initialize (npc.name, npcSprites[Random.Range(0, npcSprites.Count)], chosenDialogue, chosenDialogueResponses);
+
+		this.gameManager.AddActiveNpc(npcClass);
 	}
 }

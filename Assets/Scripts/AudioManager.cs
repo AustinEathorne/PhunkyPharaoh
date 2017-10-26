@@ -215,14 +215,14 @@ public class AudioManager : MonoBehaviour
 		if (this.elapsedTime <= this.currentTimeBetweenBeats + goodHitSeconds || this.elapsedTime >= this.nextTimeBetweenBeats - goodHitSeconds)
 		{
 			Debug.Log("Good Hit");
-			hitText.text = "Good";
+			//hitText.text = "Good";
 			Debug.Log("Elapsed Time: " + this.elapsedTime.ToString());
 			return GameManager.goodPoints;
 		}
 		else
 		{
 			Debug.Log("Bad Hit");
-			hitText.text = "Bad";
+			//hitText.text = "Bad";
 			Debug.Log("Elapsed Time: " + this.elapsedTime.ToString());
 			return GameManager.badPoints;
 		}
