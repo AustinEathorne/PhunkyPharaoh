@@ -43,8 +43,10 @@ public class TimerBar : MonoBehaviour {
 
 	private IEnumerator Initialize()
 	{
+		// Set desired scale for center object
 		centerDesiredScale = centerObj.GetComponent<RectTransform>().localScale.x * centerScaleMultiplier;
 
+		// Position dot objects
 		float xPosition = this.dotSpacing;
 		Vector3 position = new Vector3(0.0f, dotObjs[0].localPosition.y, dotObjs[0].localPosition.z);
 		for(int i = 0; i < dotObjs.Count; i++)
@@ -53,10 +55,20 @@ public class TimerBar : MonoBehaviour {
 			this.dotObjs[i].localPosition = position;
 		}
 
-		this.dotSpeed = (this.dotSpacing - (dotObjs[0].sizeDelta.x * 2)) * AudioManager.timeBetweenBeats;
+		// Set dot object travel speed
+		this.dotSpeed = this.dotSpacing / AudioManager.timeBetweenBeats;
 		Debug.Log("dotSpeed: " + this.dotSpeed);
 
+		// Set dot object reset position
 		this.resetPosition = this.dotSpacing * dotObjs.Count;
+
+		yield return new WaitUntil(() => AudioManager.hasStarted == true);
+
+		// Start dot object movement coroutine
+		for(int i = 0; i < dotObjs.Count; i++)
+		{
+			this.StartCoroutine(this.MoveDotObj(dotObjs[i]));
+		}
 
 		yield return null;
 	}
@@ -67,6 +79,7 @@ public class TimerBar : MonoBehaviour {
 		{
 			this.StartCoroutine(this.ScaleCenterObject());
 		}
+		/*
 		if(this.isInitialized)
 		{
 			for(int i = 0; i < dotObjs.Count; i++)
@@ -78,8 +91,25 @@ public class TimerBar : MonoBehaviour {
 				}
 			}
 		}
+		*/
 	}
 
+	private IEnumerator MoveDotObj(RectTransform dotTransform)
+	{
+
+		while(dotTransform.localPosition.x >= 0.05f)
+		{
+			if(!AudioManager.isPaused)
+				dotTransform.localPosition = Vector3.MoveTowards(dotTransform.localPosition, new Vector3(0.0f, dotTransform.localPosition.y,  dotTransform.localPosition.z), this.dotSpeed *  Time.deltaTime);
+			
+			yield return null;
+		}
+
+		dotTransform.localPosition = new Vector3(this.resetPosition, dotTransform.localPosition.y, dotTransform.localPosition.z);
+
+		this.StartCoroutine(this.MoveDotObj(dotTransform));
+		yield return null;
+	}
 
 	private IEnumerator ScaleCenterObject()
 	{

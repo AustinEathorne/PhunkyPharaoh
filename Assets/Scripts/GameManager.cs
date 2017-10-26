@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	public static float goodPercentage = 37.5f;
 
+	[SerializeField]
+	private GameObject anim;
+	private bool isIdle = true;
+
 	void Awake()
 	{
 		npcGenerator = this.GetComponent<NpcGenerator> ();
@@ -31,6 +35,7 @@ public class GameManager : MonoBehaviour {
 		this.npcGenerator.StartCoroutine (this.npcGenerator.Initialize());
 		yield return new WaitUntil (() => this.npcGenerator.GetIsInitiliazed());
 
+
 		// Create and instantiate npcs
 		for (int i = 0; i < npcCount; i++)
 		{
@@ -38,6 +43,14 @@ public class GameManager : MonoBehaviour {
 		}
 
 		yield return null;
+	}
+
+	private void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.B))
+		{
+			anim.GetComponent<Animator>().SetBool("isIdle", !anim.GetComponent<Animator>().GetBool(0));
+		}
 	}
 
 }
