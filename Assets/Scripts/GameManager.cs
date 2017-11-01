@@ -9,11 +9,13 @@ public class GameManager : MonoBehaviour {
 	[Header("NPC Stuff")]
 	[SerializeField]
 	private int npcCount = 10;
+	[SerializeField]
+	private List<Vector3> npcSpawnPositions;
 	private List<NpcClass> activeNpcs;
 
 	[Header("Point Stuff")]
 	[SerializeField]
-	private float playerPhunkLevel = 100.0f;
+	private PhunkMeter phunkMeter;
 	[SerializeField]
 	public static int answerPoints = 20;
 	[SerializeField]
@@ -39,7 +41,6 @@ public class GameManager : MonoBehaviour {
 		this.StartCoroutine (this.SetUpGame());
 	}
 
-
 	private IEnumerator SetUpGame()
 	{
 		this.activeNpcs = new List<NpcClass>();
@@ -52,6 +53,12 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < npcCount; i++)
 		{
 			this.npcGenerator.CreateNpc ();
+		}
+
+		// Position NPCs
+		for(int i = 0; i < npcCount; i++)
+		{
+			this.activeNpcs[i].transform.position = npcSpawnPositions[i];
 		}
 
 		yield return null;
@@ -69,9 +76,13 @@ public class GameManager : MonoBehaviour {
 		{
 			anim.GetComponent<Animator>().SetBool("isIdle", !anim.GetComponent<Animator>().GetBool(0));
 		}
-		if(Input.GetKeyDown(KeyCode.S))
+		if(Input.GetKeyDown(KeyCode.N))
 		{
 			this.StartCoroutine(this.RunDialogueSequence());
+		}
+		if(Input.GetKeyDown(KeyCode.M))
+		{
+			this.IncreasePlayerPhunk(50.0f);
 		}
 	}
 
@@ -83,8 +94,9 @@ public class GameManager : MonoBehaviour {
 		yield return this.dialogueManager.StartCoroutine(this.dialogueManager.Converse(this.activeNpcs[0]));
 	}
 
-	public void IncreasePlayerPhunk(int phunkValue)
+	public void IncreasePlayerPhunk(float phunkValue)
 	{
-		this.playerPhunkLevel += phunkValue;
+		Debug.Log("PHUNK UP " + phunkValue.ToString());
+		this.phunkMeter.IncreasePhunkValue(phunkValue);
 	}
 }

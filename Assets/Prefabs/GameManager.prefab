@@ -55,12 +55,14 @@ MonoBehaviour:
   npcPrefab: {fileID: 1275012700715110, guid: 2b9076eaac067c44ba62e2074ab42e6e, type: 2}
   npcNames:
   - Jim
-  - Jimmy
-  - Jimi
+  - Bob
+  - Sue
+  - Ann
   npcSprites:
-  - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 21300010, guid: 75b7cb179b28c2b428e04c2388cc69d1, type: 3}
+  - {fileID: 21300030, guid: 75b7cb179b28c2b428e04c2388cc69d1, type: 3}
+  - {fileID: 21300046, guid: 75b7cb179b28c2b428e04c2388cc69d1, type: 3}
+  - {fileID: 21300056, guid: 75b7cb179b28c2b428e04c2388cc69d1, type: 3}
 --- !u!114 &114701875557529040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -73,4 +75,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcCount: 10
+  npcSpawnPositions:
+  - {x: -1.28, y: 0.25, z: 1.28}
+  - {x: -0.96, y: 0.25, z: 1.28}
+  - {x: -0.64, y: 0.25, z: 1.28}
+  - {x: -0.34, y: 0.25, z: 1.28}
+  - {x: 0, y: 0.25, z: 1.28}
+  - {x: 0.34, y: 0.25, z: 1.28}
+  - {x: 0.64, y: 0.25, z: 1.28}
+  - {x: 0.96, y: 0.25, z: 1.28}
+  - {x: 1.28, y: 0.25, z: 1.28}
+  - {x: 1.28, y: 0.25, z: 0.64}
+  phunkMeter: {fileID: 0}
+  dialogueManager: {fileID: 0}
   anim: {fileID: 0}
