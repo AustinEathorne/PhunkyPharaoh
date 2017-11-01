@@ -210,20 +210,21 @@ public class AudioManager : MonoBehaviour
 		return this.nextTimeBetweenBeats;
 	}
 
-	public int GetPointValue()
+	// Get Point value according to time to/time from the last beat, points defined in GameManager.cs
+	public float GetPointValue()
 	{
 		if (this.elapsedTime <= this.currentTimeBetweenBeats + goodHitSeconds || this.elapsedTime >= this.nextTimeBetweenBeats - goodHitSeconds)
 		{
 			Debug.Log("Good Hit");
-			//hitText.text = "Good";
-			Debug.Log("Elapsed Time: " + this.elapsedTime.ToString());
+			// hitText.text = "Good";
+			// Debug.Log("Elapsed Time: " + this.elapsedTime.ToString());
 			return GameManager.goodPoints;
 		}
 		else
 		{
 			Debug.Log("Bad Hit");
-			//hitText.text = "Bad";
-			Debug.Log("Elapsed Time: " + this.elapsedTime.ToString());
+			// hitText.text = "Bad";
+			// Debug.Log("Elapsed Time: " + this.elapsedTime.ToString());
 			return GameManager.badPoints;
 		}
 	}

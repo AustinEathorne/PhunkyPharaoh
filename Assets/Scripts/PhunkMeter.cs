@@ -19,14 +19,14 @@ public class PhunkMeter : MonoBehaviour {
 
 	void Start () 
 	{
-		this.slider.minValue = 0;
+		this.slider.minValue = 0.0f;
 		this.slider.maxValue = this.maxPhunkValue;
 	}
 
 	void Update ()
 	{
 		this.UpdatePhunkMeter();
-		this.DecrementPerFrame();
+		this.DecreasePhunkValue(this.phunkPerFrameDecrease);
 	}
 
 	public void DecreasePhunkValue(float value)
@@ -57,11 +57,7 @@ public class PhunkMeter : MonoBehaviour {
 	private void UpdatePhunkMeter()
 	{
 		this.slider.value = this.currentPhunkValue;
-	}
-
-	private void DecrementPerFrame()
-	{
-		this.currentPhunkValue -= this.phunkPerFrameDecrease;
+		// Debug.Log("Current Phunk: " + this.currentPhunkValue.ToString());
 	}
 }
 

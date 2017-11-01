@@ -71,6 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 327c7941f73d5ba45bbc748b936b4694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
 --- !u!114 &114829461718626558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,9 +80,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1411196078460614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2edb0d513236aa448bb686bebb9cbec8, type: 3}
+  m_Script: {fileID: 11500000, guid: 00b17dfda6b9f914e85c26724e910552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_lookTarget: {fileID: 0}
 --- !u!212 &212502507284421678
 SpriteRenderer:
   m_ObjectHideFlags: 1

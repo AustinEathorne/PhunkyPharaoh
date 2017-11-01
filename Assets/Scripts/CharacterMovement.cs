@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
+	[SerializeField]
+	private GameManager gameManager;
+
     private bool CR_running = false;
 
 
@@ -46,6 +49,9 @@ public class CharacterMovement : MonoBehaviour
 
     IEnumerator SmoothMove(Vector3 target, float delta)
     {
+    	// check if on beat
+    	gameManager.OnBeatInput();
+
         CR_running = true;
         float closeEnough = 0.2f;
         float distance = (transform.position - target).magnitude;
@@ -54,7 +60,7 @@ public class CharacterMovement : MonoBehaviour
 
         while (distance >= closeEnough)
         {
-            Debug.Log("Executing Movement");
+            // Debug.Log("Executing Movement");
 
             transform.position = Vector3.Lerp(transform.position, target, delta);
             yield return wait;
@@ -65,6 +71,6 @@ public class CharacterMovement : MonoBehaviour
         transform.position = target;
 
         CR_running = false;
-        Debug.Log("Movement Complete");
+        // Debug.Log("Movement Complete");
     }
 }

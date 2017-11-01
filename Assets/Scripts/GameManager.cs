@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-	NpcGenerator npcGenerator;
-
 	[Header("NPC Stuff")]
+	NpcGenerator npcGenerator;
 	[SerializeField]
 	private int npcCount = 10;
 	[SerializeField]
@@ -17,13 +16,19 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	private PhunkMeter phunkMeter;
 	[SerializeField]
-	public static int answerPoints = 20;
+	private float onBeatMovePoints = 50.0f;
 	[SerializeField]
-	public static int goodPoints = 100;
+	public static float answerPoints = 20.0f;
 	[SerializeField]
-	public static int badPoints = 0;
+	public static float goodPoints = 100.0f;
 	[SerializeField]
-	public static float goodPercentage = 37.5f;
+	public static float badPoints = 0.0f;
+	[SerializeField]
+	public static float goodPercentage = 30.0f;
+
+	[Header("Audio")]
+	[SerializeField]
+	private AudioManager audioManager;
 
 	[Header("Dialogue")]
 	[SerializeField]
@@ -96,7 +101,13 @@ public class GameManager : MonoBehaviour {
 
 	public void IncreasePlayerPhunk(float phunkValue)
 	{
-		Debug.Log("PHUNK UP " + phunkValue.ToString());
+		// Debug.Log("PHUNK UP " + phunkValue.ToString());
 		this.phunkMeter.IncreasePhunkValue(phunkValue);
+	}
+
+	// For player movement onBeat check
+	public void OnBeatInput()
+	{
+		this.IncreasePlayerPhunk(audioManager.GetPointValue());
 	}
 }
