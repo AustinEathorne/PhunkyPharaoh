@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+	[Header("Player")]
+	[SerializeField]
+	private CharacterMovement characterController;
+
 	[Header("NPC Stuff")]
 	NpcGenerator npcGenerator;
 	[SerializeField]
@@ -18,13 +22,13 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	private float onBeatMovePoints = 50.0f;
 	[SerializeField]
-	public static float answerPoints = 20.0f;
+	public static float answerPoints = 75.0f;
 	[SerializeField]
-	public static float goodPoints = 100.0f;
+	public static float goodPoints = 50.0f;
 	[SerializeField]
-	public static float badPoints = 0.0f;
+	public static float badPoints = -25.0f;
 	[SerializeField]
-	public static float goodPercentage = 30.0f;
+	public static float goodPercentage = 25.0f;
 
 	[Header("Audio")]
 	[SerializeField]
@@ -66,6 +70,8 @@ public class GameManager : MonoBehaviour {
 			this.activeNpcs[i].transform.position = npcSpawnPositions[i];
 		}
 
+		this.characterController.SetInputTimeInterval(AudioManager.timeBetweenBeats * 0.5f);
+
 		yield return null;
 	}
 
@@ -97,6 +103,11 @@ public class GameManager : MonoBehaviour {
 		isInDialogue = true;
 		this.dialogueManager.EnableDialogueUI(true);
 		yield return this.dialogueManager.StartCoroutine(this.dialogueManager.Converse(this.activeNpcs[0]));
+		yield return new WaitUntil(() => (this.dialogueManager.GetCurrentLineIndex() >= this.dialogueManager.GetCurrentLineCount()) == true);
+
+		isInDialogue = false;
+		this.dialogueManager.EnableDialogueUI(false);
+		Debug.Log("Done Run Dialogue Sequence");
 	}
 
 	public void IncreasePlayerPhunk(float phunkValue)

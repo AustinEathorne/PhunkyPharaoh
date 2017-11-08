@@ -37,8 +37,10 @@ public class DialogueManager : MonoBehaviour {
 	private GameManager gameManager;
 
 	private int currentLineIndex = 0;
+	private int currentLineCount = 0;
 	private int currentResponseIndex = 0;
 	private bool isWaitingForResponse = true;
+
 
 	private IEnumerator Initialize()
 	{
@@ -49,14 +51,21 @@ public class DialogueManager : MonoBehaviour {
 	public void ResetConversation()
 	{
 		this.currentLineIndex = 0;
+		this.currentLineCount = 0;
 		this.currentResponseIndex = 0;
 		this.isWaitingForResponse = true;
+
+		this.responseTextParents[0].anchoredPosition = this.leftPosition;
+		this.responseTextParents[1].anchoredPosition = this.centerPosition;
+		this.responseTextParents[2].anchoredPosition = this.rightPosition;
 	}
 
 	// Controls the flow of the conversation
 	public IEnumerator Converse(NpcClass npc)
 	{
 		Debug.Log("line index: " + this.currentLineIndex);
+
+		this.currentLineCount = npc.GetDialogueCount();
 
 		// Npc Speaks
 		yield return this.StartCoroutine(this.SayLine(npc));
@@ -86,10 +95,8 @@ public class DialogueManager : MonoBehaviour {
 		{
 			this.StartCoroutine(this.Converse(npc));
 		}
-		else
-		{
-			this.EnableDialogueUI(false);
-		}
+
+		Debug.Log("Done Converse");
 
 		yield return null;
 	}
@@ -202,5 +209,15 @@ public class DialogueManager : MonoBehaviour {
 		}
 
 		yield return null;
+	}
+
+	// Get/Set
+	public int GetCurrentLineIndex()
+	{
+		return this.currentLineIndex;
+	}
+	public int GetCurrentLineCount()
+	{
+		return this.currentLineCount;
 	}
 }

@@ -1035,6 +1035,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 952389721}
+--- !u!114 &982979126 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114799821425881454, guid: 019af71be3d6386498257e2ac5c9f3fc,
+    type: 2}
+  m_PrefabInternal: {fileID: 403000701}
+  m_Script: {fileID: 11500000, guid: dfe3001509d6f8a46ad34a436ebb595d, type: 3}
 --- !u!1001 &1056007865
 Prefab:
   m_ObjectHideFlags: 0
@@ -1397,6 +1403,15 @@ Prefab:
       propertyPath: dialogueManager
       value: 
       objectReference: {fileID: 1666880008}
+    - target: {fileID: 114701875557529040, guid: 66496a4a437769845a03ba1a7593af31,
+        type: 2}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 982979126}
+    - target: {fileID: 1919991361602938, guid: 66496a4a437769845a03ba1a7593af31, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 66496a4a437769845a03ba1a7593af31, type: 2}
   m_IsPrefabParent: 0
