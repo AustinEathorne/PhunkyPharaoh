@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	private int npcCount = 10;
 	[SerializeField]
-	private List<Vector3> npcSpawnPositions;
+	private List<GameObject> npcSpawnPositions;
 	private List<NpcClass> activeNpcs;
 
 	[Header("Point Stuff")]
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour {
 		// Position NPCs
 		for(int i = 0; i < npcCount; i++)
 		{
-			this.activeNpcs[i].transform.position = npcSpawnPositions[i];
+			this.activeNpcs[i].transform.position = npcSpawnPositions[i].transform.position;
 		}
 
 		this.characterController.SetInputTimeInterval(AudioManager.timeBetweenBeats * 0.5f);

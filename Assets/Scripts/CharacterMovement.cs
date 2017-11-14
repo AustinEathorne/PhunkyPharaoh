@@ -14,6 +14,7 @@ public class CharacterMovement : MonoBehaviour
 
     private bool CR_running = false;
 
+    public bool m_stopMove = false;
 
     void Update()
     {
@@ -32,7 +33,9 @@ public class CharacterMovement : MonoBehaviour
 
     private void GetInput()
     {
-		if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && !CR_running)
+       
+
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && !CR_running)
         {
             Vector3 relativeLocation = new Vector3(0f, 0.0f, 0.32f); // changed to work on x,z plane
             Vector3 targetLocation = transform.position + relativeLocation;
@@ -42,7 +45,21 @@ public class CharacterMovement : MonoBehaviour
         }
 		else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && !CR_running)
         {
-			Vector3 relativeLocation = new Vector3(0f, 0.0f, 0.32f); // changed to work on x,z plane
+
+            if(Physics.Raycast(transform.position, Vector3.back, 5f))
+            {
+                Debug.Log("Has Hit It!!");
+            }
+
+            //RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.back, 0.32f);
+            //Debug.DrawLine(transform.position, hit.transform.position, Color.red);
+            //if (hit)
+            //{
+            //    Debug.Log(hit.collider.name);
+            //}
+            //m_stopMove = WallCheck();
+
+            Vector3 relativeLocation = new Vector3(0f, 0.0f, 0.32f); // changed to work on x,z plane
             Vector3 targetLocation = transform.position - relativeLocation;
             float timeDelta = 0.15f;
 
@@ -102,4 +119,10 @@ public class CharacterMovement : MonoBehaviour
     	this.inputTimeInterval = value;
     	Debug.Log(this.inputTimeInterval.ToString());
     }
+
+    //private bool WallCheck()
+    //{
+    //    return Physics2D.Raycast(transform.position, Vector3.up, -0.32f);
+    //}
+
 }
