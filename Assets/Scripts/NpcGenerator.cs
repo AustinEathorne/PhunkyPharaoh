@@ -20,15 +20,11 @@ public class NpcGenerator : MonoBehaviour
 	[SerializeField]
 	private GameObject npcPrefab;
 
-	[Header("Names")]
-	[SerializeField]
-	private List<string> npcNames = new List<string>();
+    [Header("Npcs")]
+    [SerializeField]
+    private List<GameObject> NPCs = new List<GameObject>();
 
-	[Header("Sprites")]
-	[SerializeField]
-	private List<Sprite> npcSprites = new List<Sprite>();
-
-	private GameManager gameManager;
+    private GameManager gameManager;
 
 
 	public IEnumerator Initialize()
@@ -99,9 +95,13 @@ public class NpcGenerator : MonoBehaviour
 	// Called from GameManager x amount of times
 	public void CreateNpc()
 	{
+
+
 		// Instantiate & set name
-		GameObject npc = GameObject.Instantiate(npcPrefab, this.transform.position, Quaternion.identity);
-		npc.name = npcNames[Random.Range(0, npcNames.Count)];
+		GameObject BaseNpc = GameObject.Instantiate(npcPrefab, this.transform.position, Quaternion.identity);
+        GameObject npc = NPCs[Random.Range(0, NPCs.Count)];
+
+        BaseNpc.name = npc.name;
 
 		// Set dialogue
 		List<string> chosenDialogue = new List<string>();
@@ -123,9 +123,9 @@ public class NpcGenerator : MonoBehaviour
 		}
 
 		// Initialize
-		NpcClass npcClass = npc.GetComponent<NpcClass> ();
-		npcClass.Initialize (npc.name, npcSprites[Random.Range(0, npcSprites.Count)], chosenDialogue, chosenDialogueResponses);
+		NpcClass npcClass = BaseNpc.GetComponent<NpcClass> ();
+        npcClass.Initialize(BaseNpc.name, npc.GetComponent<SpriteRenderer>().sprite, npc.GetComponent<Animator>(), chosenDialogue, chosenDialogueResponses);
 
-		this.gameManager.AddActiveNpc(npcClass);
+        this.gameManager.AddActiveNpc(npcClass);
 	}
 }

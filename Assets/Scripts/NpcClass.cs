@@ -11,14 +11,15 @@ public class NpcClass : MonoBehaviour
 	private Dictionary<int, List<string>> m_dialogueOptions = new Dictionary<int, List<string>>();
 
 	// Initialized by NpcGenerator
-	public void Initialize(string name, Sprite sprite, List<string> dialogueLines, Dictionary<int, List<string>> dialogueOptions)
+	public void Initialize(string name, Sprite sprite, Animator animator, List<string> dialogueLines, Dictionary<int, List<string>> dialogueOptions)
 	{
 		this.m_name = name;
 		this.m_dialogueLines = dialogueLines;
 		this.m_dialogueOptions = dialogueOptions;
 
 		this.GetComponent<SpriteRenderer> ().sprite = sprite;
-	}
+        this.GetComponent<Animator>().runtimeAnimatorController = animator.runtimeAnimatorController;
+    }
 
 	// Return the desired dialogue line
 	public string GetDialogue(int lineIndex)

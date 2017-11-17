@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class PhunkMeter : MonoBehaviour {
 
-	[Header("Objects")]
+   // [SerializeField] private GameManager m_gameManagerScript;
+
+    [Header("Objects")]
 	[SerializeField]
 	private Slider slider;
 
@@ -25,8 +27,11 @@ public class PhunkMeter : MonoBehaviour {
 
 	void Update ()
 	{
-		this.UpdatePhunkMeter();
-		this.DecreasePhunkValue(this.phunkPerFrameDecrease);
+        if (!GameManager.isInDialogue)
+        {
+            this.UpdatePhunkMeter();
+            this.DecreasePhunkValue(this.phunkPerFrameDecrease);
+        }
 	}
 
 	public void DecreasePhunkValue(float value)

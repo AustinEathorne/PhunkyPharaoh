@@ -11,14 +11,16 @@ public class CharacterMovement : MonoBehaviour
 	[SerializeField]
 	private float inputTimeInterval = 1.0f;
 	private float movementCounter = 0.0f;
+    private float m_moveDist = 0.32f;
+    private float m_timeDelta = 0.15f;
 
     private bool CR_running = false;
 
-    public bool m_stopMove = false;
+    private Vector3 m_priorLocation;
 
     void Update()
     {
-    	if(this.movementCounter >= this.inputTimeInterval)
+    	if(this.movementCounter >= this.inputTimeInterval && !GameManager.isInDialogue)
     	{
 			this.GetInput();
     	}
@@ -37,49 +39,55 @@ public class CharacterMovement : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && !CR_running)
         {
-            Vector3 relativeLocation = new Vector3(0f, 0.0f, 0.32f); // changed to work on x,z plane
+            m_priorLocation = transform.position;
+
+            Vector3 relativeLocation = new Vector3(0f, 0.0f, m_moveDist); // changed to work on x,z plane
             Vector3 targetLocation = transform.position + relativeLocation;
             float timeDelta = 0.15f;
 
             StartCoroutine(SmoothMove(targetLocation, timeDelta));
+
+            RayCastCheck(transform.forward);
+
         }
-		else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && !CR_running)
+        else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && !CR_running)
         {
+            m_priorLocation = transform.position;
 
-            if(Physics.Raycast(transform.position, Vector3.back, 5f))
-            {
-                Debug.Log("Has Hit It!!");
-            }
-
-            //RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.back, 0.32f);
-            //Debug.DrawLine(transform.position, hit.transform.position, Color.red);
-            //if (hit)
-            //{
-            //    Debug.Log(hit.collider.name);
-            //}
-            //m_stopMove = WallCheck();
-
-            Vector3 relativeLocation = new Vector3(0f, 0.0f, 0.32f); // changed to work on x,z plane
+            Vector3 relativeLocation = new Vector3(0f, 0.0f, m_moveDist); // changed to work on x,z plane
             Vector3 targetLocation = transform.position - relativeLocation;
             float timeDelta = 0.15f;
 
             StartCoroutine(SmoothMove(targetLocation, timeDelta));
+
+            RayCastCheck(-transform.forward);
+
         }
 		else if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && !CR_running)
         {
-            Vector3 relativeLocation = new Vector3(0.32f, 0f, 0f);
+            m_priorLocation = transform.position;
+
+            Vector3 relativeLocation = new Vector3(m_moveDist, 0f, 0f);
             Vector3 targetLocation = transform.position + relativeLocation;
             float timeDelta = 0.15f;
 
             StartCoroutine(SmoothMove(targetLocation, timeDelta));
+
+            RayCastCheck(transform.right);
+
         }
-		else if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && !CR_running)
+        else if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && !CR_running)
         {
-            Vector3 relativeLocation = new Vector3(0.32f, 0f, 0f);
+            m_priorLocation = transform.position;
+
+            Vector3 relativeLocation = new Vector3(m_moveDist, 0f, 0f);
             Vector3 targetLocation = transform.position - relativeLocation;
             float timeDelta = 0.15f;
 
             StartCoroutine(SmoothMove(targetLocation, timeDelta));
+
+            RayCastCheck(-transform.right);
+
         }
     }
 
@@ -96,8 +104,6 @@ public class CharacterMovement : MonoBehaviour
 
         while (distance >= closeEnough)
         {
-            // Debug.Log("Executing Movement");
-
             transform.position = Vector3.Lerp(transform.position, target, delta);
             yield return wait;
 
@@ -110,7 +116,6 @@ public class CharacterMovement : MonoBehaviour
     	this.movementCounter = 0.0f;
 
         CR_running = false;
-        // Debug.Log("Movement Complete");
     }
    
     // Get/Set
@@ -120,9 +125,26 @@ public class CharacterMovement : MonoBehaviour
     	Debug.Log(this.inputTimeInterval.ToString());
     }
 
-    //private bool WallCheck()
-    //{
-    //    return Physics2D.Raycast(transform.position, Vector3.up, -0.32f);
-    //}
+    private void RayCastCheck(Vector3 rayDirection)
+    {
+        Ray ray = new Ray(transform.position, rayDirection);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, m_moveDist))
+        {
+            if (hit.transform.tag == "Wall")
+            {
+                StopAllCoroutines();
+                StartCoroutine(SmoothMove(m_priorLocation, m_timeDelta));
+            }
+            else if(hit.transform.tag == "NPC")
+            {
+                StopAllCoroutines();
+                StartCoroutine(SmoothMove(m_priorLocation, m_timeDelta));
+                StartCoroutine(gameManager.RunDialogueSequence());
+            }
+        }
+    }
 
 }

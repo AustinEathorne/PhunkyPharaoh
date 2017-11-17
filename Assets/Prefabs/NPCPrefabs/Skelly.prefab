@@ -9,69 +9,61 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1275012700715110}
+  m_RootGameObject: {fileID: 1680267387808092}
   m_IsPrefabParent: 1
---- !u!1 &1275012700715110
+--- !u!1 &1680267387808092
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4858107979642568}
-  - component: {fileID: 114970005532919754}
-  - component: {fileID: 212725002873579186}
-  - component: {fileID: 114134140466902208}
+  - component: {fileID: 4569531001838756}
+  - component: {fileID: 95181621751469408}
+  - component: {fileID: 212798372776695746}
   m_Layer: 0
-  m_Name: NpcPrefab
+  m_Name: Skelly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4858107979642568
+--- !u!4 &4569531001838756
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1275012700715110}
+  m_GameObject: {fileID: 1680267387808092}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7521223, y: 0.25787687, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114134140466902208
-MonoBehaviour:
+--- !u!95 &95181621751469408
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1275012700715110}
+  m_GameObject: {fileID: 1680267387808092}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00b17dfda6b9f914e85c26724e910552, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_lookTarget: {fileID: 0}
---- !u!114 &114970005532919754
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1275012700715110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62d92d2a0b775df49abfbc5f255a5962, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_dialogueLines: []
---- !u!212 &212725002873579186
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4d8f2ee46b6f1a447859d1d735cdfeaf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!212 &212798372776695746
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1275012700715110}
+  m_GameObject: {fileID: 1680267387808092}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -98,13 +90,13 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300010, guid: 75b7cb179b28c2b428e04c2388cc69d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.48, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0

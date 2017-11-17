@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour {
 		}
 		if(Input.GetKeyDown(KeyCode.N))
 		{
-			this.StartCoroutine(this.RunDialogueSequence());
+            this.StartCoroutine(this.RunDialogueSequence());
 		}
 		if(Input.GetKeyDown(KeyCode.M))
 		{
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	private IEnumerator RunDialogueSequence()
+	public IEnumerator RunDialogueSequence()
 	{
 		this.dialogueManager.ResetConversation();
 		isInDialogue = true;
