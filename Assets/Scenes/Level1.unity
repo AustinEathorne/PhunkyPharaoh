@@ -5301,6 +5301,7 @@ GameObject:
   - component: {fileID: 164896773}
   - component: {fileID: 164896772}
   - component: {fileID: 164896771}
+  - component: {fileID: 164896774}
   m_Layer: 5
   m_Name: Response3
   m_TagString: Untagged
@@ -5412,6 +5413,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 164896769}
+--- !u!114 &164896774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 164896769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c1e32e367ca4a801bb2471451484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_buttonIndex: 2
 --- !u!1 &169161052
 GameObject:
   m_ObjectHideFlags: 0
@@ -9134,6 +9147,11 @@ Prefab:
       propertyPath: responseTextsContainer
       value: 
       objectReference: {fileID: 1922877498}
+    - target: {fileID: 114956574112830338, guid: faebf659d188b6647af01170f29474b5,
+        type: 2}
+      propertyPath: buttonMoveSpeed
+      value: 1500
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: faebf659d188b6647af01170f29474b5, type: 2}
   m_IsPrefabParent: 0
@@ -16862,6 +16880,7 @@ GameObject:
   - component: {fileID: 594269052}
   - component: {fileID: 594269051}
   - component: {fileID: 594269050}
+  - component: {fileID: 594269053}
   m_Layer: 5
   m_Name: Response1
   m_TagString: Untagged
@@ -16973,6 +16992,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 594269048}
+--- !u!114 &594269053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 594269048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c1e32e367ca4a801bb2471451484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_buttonIndex: 0
 --- !u!1 &594291300
 GameObject:
   m_ObjectHideFlags: 0
@@ -48618,6 +48649,7 @@ GameObject:
   - component: {fileID: 1844726431}
   - component: {fileID: 1844726430}
   - component: {fileID: 1844726429}
+  - component: {fileID: 1844726432}
   m_Layer: 5
   m_Name: Response2
   m_TagString: Untagged
@@ -48729,6 +48761,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1844726427}
+--- !u!114 &1844726432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1844726427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c1e32e367ca4a801bb2471451484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_buttonIndex: 1
 --- !u!1 &1851008847
 GameObject:
   m_ObjectHideFlags: 0

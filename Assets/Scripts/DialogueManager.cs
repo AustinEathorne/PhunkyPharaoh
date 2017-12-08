@@ -36,9 +36,12 @@ public class DialogueManager : MonoBehaviour {
 	[SerializeField]
 	private GameManager gameManager;
 
-	private int currentLineIndex = 0;
+    public int m_dialogueIndex;
+    public int m_selectedDialogueIndex;
+
+    private int currentLineIndex = 0;
 	private int currentLineCount = 0;
-	private int currentResponseIndex = 0;
+	public int currentResponseIndex = 0;
 	private bool isWaitingForResponse = true;
 
 
@@ -137,35 +140,60 @@ public class DialogueManager : MonoBehaviour {
 
 	private void Update()
 	{
-		if(AudioManager.isOnHalfBeat && GameManager.isInDialogue)
+		if(AudioManager.isOnBeat && GameManager.isInDialogue)
 		{
 			this.StartCoroutine(this.CycleResponseButtons());
 		}
-	}
+        //if (Input.GetButtonDown("Submit") && GameManager.isInDialogue)
+        //{
+        //    if (responseTextParents[m_dialogueIndex].localPosition.x == 0f)
+        //    {
+        //        m_selectedDialogueIndex = responseTextParents.IndexOf(responseTextParents[m_dialogueIndex]);
+        //        Respond(m_selectedDialogueIndex);
+        //    }
+        //}
+        //if (responseTextParents[m_dialogueIndex].localPosition.x == 0f)
+        //{
+        //    m_selectedDialogueIndex = responseTextParents.IndexOf(responseTextParents[]);
+        //    Respond(m_selectedDialogueIndex);
+        //}
+
+        foreach (var item in responseTextParents)
+        {
+            if(item.localPosition.x == 0f)
+            {
+                m_selectedDialogueIndex = item.GetComponent<DialogueButtons>().m_buttonIndex;
+            }
+        }
+        if (Input.GetButtonDown("Submit") && GameManager.isInDialogue)
+        {
+            Respond(m_selectedDialogueIndex);
+        }
+    }
 
 	// Start OnBeat
 	public IEnumerator CycleResponseButtons()
 	{
-		for(int i = 0; i < responseTextParents.Count; i++)
+		for(m_dialogueIndex = 0; m_dialogueIndex < responseTextParents.Count; m_dialogueIndex++)
 		{
 			// Move left response to the right
-			if(responseTextParents[i].localPosition.x < 0.0f)
+			if(responseTextParents[m_dialogueIndex].localPosition.x < 0.0f)
 			{
-				this.StartCoroutine(this.MoveReponseButton(this.responseTextParents[i], this.rightPosition));
+				this.StartCoroutine(this.MoveReponseButton(this.responseTextParents[m_dialogueIndex], this.rightPosition));
 			}
 			// Move right response to the center, scale up, set interactable
-			else if (responseTextParents[i].localPosition.x > 0.0f)
+			else if (responseTextParents[m_dialogueIndex].localPosition.x > 0.0f)
 			{
-				this.StartCoroutine(this.MoveReponseButton(this.responseTextParents[i], this.centerPosition));
-				this.StartCoroutine(this.ScaleResponseButton(this.responseTextParents[i], this.centerScale, true));
-				this.responseTextParents[i].GetComponent<Button>().interactable = true;
+				this.StartCoroutine(this.MoveReponseButton(this.responseTextParents[m_dialogueIndex], this.centerPosition));
+				this.StartCoroutine(this.ScaleResponseButton(this.responseTextParents[m_dialogueIndex], this.centerScale, true));
+				this.responseTextParents[m_dialogueIndex].GetComponent<Button>().interactable = true;
 			}
 			// Move center response to the left, scale down, set not interactable
 			else
 			{
-				this.StartCoroutine(this.MoveReponseButton(this.responseTextParents[i], this.leftPosition));
-				this.StartCoroutine(this.ScaleResponseButton(this.responseTextParents[i], this.backgroundScale, false));
-				this.responseTextParents[i].GetComponent<Button>().interactable = false;
+				this.StartCoroutine(this.MoveReponseButton(this.responseTextParents[m_dialogueIndex], this.leftPosition));
+				this.StartCoroutine(this.ScaleResponseButton(this.responseTextParents[m_dialogueIndex], this.backgroundScale, false));
+				this.responseTextParents[m_dialogueIndex].GetComponent<Button>().interactable = false;
 			}
 		}
 

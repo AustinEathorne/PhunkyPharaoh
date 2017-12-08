@@ -37,7 +37,7 @@ public class CharacterMovement : MonoBehaviour
     {
        
 
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && !CR_running)
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)|| Input.GetAxisRaw("Vertical") > 0f) && !CR_running)
         {
             m_priorLocation = transform.position;
 
@@ -50,7 +50,7 @@ public class CharacterMovement : MonoBehaviour
             RayCastCheck(transform.forward);
 
         }
-        else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && !CR_running)
+        else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) || Input.GetAxisRaw("Vertical") < 0f) && !CR_running)
         {
             m_priorLocation = transform.position;
 
@@ -63,7 +63,7 @@ public class CharacterMovement : MonoBehaviour
             RayCastCheck(-transform.forward);
 
         }
-		else if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && !CR_running)
+		else if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || Input.GetAxisRaw("Horizontal") > 0f) && !CR_running)
         {
             m_priorLocation = transform.position;
 
@@ -76,7 +76,7 @@ public class CharacterMovement : MonoBehaviour
             RayCastCheck(transform.right);
 
         }
-        else if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && !CR_running)
+        else if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetAxisRaw("Horizontal") < 0f) && !CR_running)
         {
             m_priorLocation = transform.position;
 
