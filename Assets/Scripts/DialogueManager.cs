@@ -80,15 +80,23 @@ public class DialogueManager : MonoBehaviour {
 		yield return new WaitUntil(() => this.isWaitingForResponse == false);
 		this.isWaitingForResponse = true;
 
-		// Pick a random corerct answer
-		int correctAnswer = Random.Range(0, npc.GetDialogueResponses(this.currentLineIndex).Count);
+        // Pick a random corerct answer
+        int correctAnswer = 0;
 
 		// Update player phunk meter if chosen answer matches correct answer
 		if(this.currentResponseIndex == correctAnswer)
 		{
 			this.gameManager.IncreasePlayerPhunk(GameManager.answerPoints);
+            npc.m_correctDialogueCount += 1;
 			Debug.Log("Correct Answer");
 		}
+        else
+        {
+            Debug.Log("Wrong Answer");
+            npc.m_correctDialogueCount = 0;
+            this.currentLineIndex = 3;
+            this.gameManager.DecreasePlayerPhunk(GameManager.answerPoints);
+        }
 
 		// Increase counter
 		this.currentLineIndex++;
@@ -144,19 +152,6 @@ public class DialogueManager : MonoBehaviour {
 		{
 			this.StartCoroutine(this.CycleResponseButtons());
 		}
-        //if (Input.GetButtonDown("Submit") && GameManager.isInDialogue)
-        //{
-        //    if (responseTextParents[m_dialogueIndex].localPosition.x == 0f)
-        //    {
-        //        m_selectedDialogueIndex = responseTextParents.IndexOf(responseTextParents[m_dialogueIndex]);
-        //        Respond(m_selectedDialogueIndex);
-        //    }
-        //}
-        //if (responseTextParents[m_dialogueIndex].localPosition.x == 0f)
-        //{
-        //    m_selectedDialogueIndex = responseTextParents.IndexOf(responseTextParents[]);
-        //    Respond(m_selectedDialogueIndex);
-        //}
 
         foreach (var item in responseTextParents)
         {
@@ -165,6 +160,7 @@ public class DialogueManager : MonoBehaviour {
                 m_selectedDialogueIndex = item.GetComponent<DialogueButtons>().m_buttonIndex;
             }
         }
+
         if (Input.GetButtonDown("Submit") && GameManager.isInDialogue)
         {
             Respond(m_selectedDialogueIndex);

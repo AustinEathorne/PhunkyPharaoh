@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4905807196658834}
   - component: {fileID: 95612740607898804}
   - component: {fileID: 212050676234289930}
+  - component: {fileID: 114970952152607308}
   m_Layer: 0
   m_Name: Pimp
   m_TagString: Untagged
@@ -58,6 +59,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114970952152607308
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1701880464036536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99367813ad8adb44e93c98e7801d868d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_npcIndex: 1
 --- !u!212 &212050676234289930
 SpriteRenderer:
   m_ObjectHideFlags: 1

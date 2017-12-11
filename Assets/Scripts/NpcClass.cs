@@ -6,12 +6,37 @@ public class NpcClass : MonoBehaviour
 {
 	private string m_name = "";
 
+    private bool CR_running = false;
+    [HideInInspector] public bool m_playerHitWall = false;
+
+    private float m_timeDelta = 0.15f;
+
+    public int m_correctDialogueCount;
+
 	[SerializeField]
 	private List<string> m_dialogueLines = new List<string>();
 	private Dictionary<int, List<string>> m_dialogueOptions = new Dictionary<int, List<string>>();
 
-	// Initialized by NpcGenerator
-	public void Initialize(string name, Sprite sprite, Animator animator, List<string> dialogueLines, Dictionary<int, List<string>> dialogueOptions)
+    private GameObject m_playerObj;
+    private CharacterMovement m_player;
+
+    private void Awake()
+    {
+        m_playerObj = GameObject.Find("Char_ProtoType");
+        m_player = m_playerObj.GetComponent<CharacterMovement>();
+    }
+
+    private void Update()
+    {
+        if(m_correctDialogueCount >= 3 && !m_playerHitWall)
+        {
+            StartCoroutine(SmoothMove(m_player.m_priorLocation, m_timeDelta));
+            m_player.m_npcFollowing = true;
+        }
+    }
+
+    // Initialized by NpcGenerator
+    public void Initialize(string name, Sprite sprite, Animator animator, List<string> dialogueLines, Dictionary<int, List<string>> dialogueOptions)
 	{
 		this.m_name = name;
 		this.m_dialogueLines = dialogueLines;
@@ -37,4 +62,26 @@ public class NpcClass : MonoBehaviour
 	{
 		return this.m_dialogueLines.Count;
 	}
+
+    IEnumerator SmoothMove(Vector3 target, float delta)
+    {
+        CR_running = true;
+
+        float closeEnough = 0.2f;
+        float distance = (transform.position - target).magnitude;
+
+        WaitForEndOfFrame wait = new WaitForEndOfFrame();
+
+        while (distance >= closeEnough)
+        {
+            transform.position = Vector3.Lerp(transform.position, target, delta);
+            yield return wait;
+
+            distance = (transform.position - target).magnitude;
+        }
+
+        transform.position = target;
+
+        CR_running = false;
+    }
 }

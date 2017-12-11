@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4261715316125252}
   - component: {fileID: 95133654108193734}
   - component: {fileID: 212507536775312246}
+  - component: {fileID: 114373904392906600}
   m_Layer: 0
   m_Name: Baller
   m_TagString: Untagged
@@ -58,6 +59,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114373904392906600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493027322359012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99367813ad8adb44e93c98e7801d868d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_npcIndex: 0
 --- !u!212 &212507536775312246
 SpriteRenderer:
   m_ObjectHideFlags: 1

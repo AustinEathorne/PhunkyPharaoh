@@ -16,7 +16,11 @@ public class CharacterMovement : MonoBehaviour
 
     private bool CR_running = false;
 
-    private Vector3 m_priorLocation;
+    [HideInInspector] public bool m_npcFollowing = false;
+
+    [HideInInspector] public Vector3 m_priorLocation;
+
+    private GameObject m_hitNPC = null;
 
     void Update()
     {
@@ -97,6 +101,7 @@ public class CharacterMovement : MonoBehaviour
     	this.gameManager.OnBeatInput();
 		Debug.Log(this.inputTimeInterval.ToString());
         CR_running = true;
+        
         float closeEnough = 0.2f;
         float distance = (transform.position - target).magnitude;
 
@@ -135,16 +140,31 @@ public class CharacterMovement : MonoBehaviour
         {
             if (hit.transform.tag == "Wall")
             {
+                if(m_hitNPC != null)
+                {
+                    m_hitNPC.GetComponent<NpcClass>().m_playerHitWall = true;
+                }
                 StopAllCoroutines();
                 StartCoroutine(SmoothMove(m_priorLocation, m_timeDelta));
             }
-            else if(hit.transform.tag == "NPC")
+            else if(hit.transform.tag == "NPC" && !m_npcFollowing)
             {
+                m_hitNPC = hit.transform.gameObject;
                 StopAllCoroutines();
                 StartCoroutine(SmoothMove(m_priorLocation, m_timeDelta));
-                StartCoroutine(gameManager.RunDialogueSequence());
+                m_priorLocation = hit.transform.position;
+                StartCoroutine(gameManager.RunDialogueSequence(hit.transform.GetComponent<NpcClass>()));
+            }
+            
+        }
+        else
+        {
+            if (m_hitNPC != null)
+            {
+                m_hitNPC.GetComponent<NpcClass>().m_playerHitWall = false;
             }
         }
+
     }
 
 }

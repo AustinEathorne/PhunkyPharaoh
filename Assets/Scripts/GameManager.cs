@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	private float onBeatMovePoints = 50.0f;
 	[SerializeField]
-	public static float answerPoints = 75.0f;
+	public static float answerPoints = 50.0f;
 	[SerializeField]
 	public static float goodPoints = 50.0f;
 	[SerializeField]
@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour {
 		}
 		if(Input.GetKeyDown(KeyCode.N))
 		{
-            this.StartCoroutine(this.RunDialogueSequence());
+            //this.StartCoroutine(this.RunDialogueSequence());
 		}
 		if(Input.GetKeyDown(KeyCode.M))
 		{
@@ -97,12 +97,12 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public IEnumerator RunDialogueSequence()
+	public IEnumerator RunDialogueSequence(NpcClass npc)
 	{
 		this.dialogueManager.ResetConversation();
 		isInDialogue = true;
 		this.dialogueManager.EnableDialogueUI(true);
-		yield return this.dialogueManager.StartCoroutine(this.dialogueManager.Converse(this.activeNpcs[0]));
+		yield return this.dialogueManager.StartCoroutine(this.dialogueManager.Converse(npc));
 		yield return new WaitUntil(() => (this.dialogueManager.GetCurrentLineIndex() >= this.dialogueManager.GetCurrentLineCount()) == true);
 
 		isInDialogue = false;
@@ -116,8 +116,14 @@ public class GameManager : MonoBehaviour {
 		this.phunkMeter.IncreasePhunkValue(phunkValue);
 	}
 
-	// For player movement onBeat check
-	public void OnBeatInput()
+    public void DecreasePlayerPhunk(float phunkValue)
+    {
+        // Debug.Log("PHUNK UP " + phunkValue.ToString());
+        this.phunkMeter.DecreasePhunkValue(phunkValue);
+    }
+
+    // For player movement onBeat check
+    public void OnBeatInput()
 	{
 		this.IncreasePlayerPhunk(audioManager.GetPointValue());
 	}

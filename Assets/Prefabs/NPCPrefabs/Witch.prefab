@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4938204029565736}
   - component: {fileID: 95440800276335828}
   - component: {fileID: 212742339656220282}
+  - component: {fileID: 114915499056631046}
   m_Layer: 0
   m_Name: Witch
   m_TagString: Untagged
@@ -58,6 +59,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114915499056631046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1104394661199454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99367813ad8adb44e93c98e7801d868d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_npcIndex: 3
 --- !u!212 &212742339656220282
 SpriteRenderer:
   m_ObjectHideFlags: 1
