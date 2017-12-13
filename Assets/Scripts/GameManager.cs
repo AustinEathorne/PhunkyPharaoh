@@ -44,7 +44,15 @@ public class GameManager : MonoBehaviour {
 	private GameObject anim;
 	private bool isIdle = true;
 
-	void Awake()
+    private bool m_isClubFloor1Active = true;
+    private bool m_isClubFloor2Active = false;
+
+    [SerializeField] private GameObject m_clubFloor1Obj;
+    [SerializeField] private GameObject m_clubFloor2Obj;
+    [SerializeField] private GameObject m_danceFloorObj1;
+    [SerializeField] private GameObject m_danceFloorObj2;
+
+    void Awake()
 	{
 		npcGenerator = this.GetComponent<NpcGenerator> ();
 		this.StartCoroutine (this.SetUpGame());
@@ -95,6 +103,28 @@ public class GameManager : MonoBehaviour {
 		{
 			this.IncreasePlayerPhunk(50.0f);
 		}
+
+        if(AudioManager.isOnBeat)
+        {
+            if(m_isClubFloor1Active)
+            {
+                m_clubFloor1Obj.SetActive(false);
+                m_danceFloorObj1.SetActive(false);
+                m_clubFloor2Obj.SetActive(true);
+                m_danceFloorObj2.SetActive(true);
+                m_isClubFloor2Active = true;
+                m_isClubFloor1Active = false;
+            }
+            else if(m_isClubFloor2Active)
+            {
+                m_clubFloor2Obj.SetActive(false);
+                m_danceFloorObj2.SetActive(false);
+                m_clubFloor1Obj.SetActive(true);
+                m_danceFloorObj1.SetActive(true);
+                m_isClubFloor1Active = true;
+                m_isClubFloor2Active = false;
+            }
+        }
 	}
 
 	public IEnumerator RunDialogueSequence(NpcClass npc)
