@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - NPC
+  - DanceTile
   layers:
   - Default
   - TransparentFX

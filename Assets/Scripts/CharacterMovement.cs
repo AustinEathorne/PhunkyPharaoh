@@ -13,18 +13,20 @@ public class CharacterMovement : MonoBehaviour
 	private float movementCounter = 0.0f;
     private float m_moveDist = 0.32f;
     private float m_timeDelta = 0.15f;
+    private bool m_isAxisInUse = false;
+
 
     private bool CR_running = false;
 
-    [HideInInspector] public bool m_npcFollowing = false;
+public bool m_npcFollowing = false;
 
     [HideInInspector] public Vector3 m_priorLocation;
 
-    private GameObject m_hitNPC = null;
+    [HideInInspector] public GameObject m_hitNPC = null;
 
     void Update()
     {
-    	if(this.movementCounter >= this.inputTimeInterval && !GameManager.isInDialogue)
+    	if(/*this.movementCounter >= this.inputTimeInterval &&*/ !GameManager.isInDialogue)
     	{
 			this.GetInput();
     	}
@@ -43,59 +45,81 @@ public class CharacterMovement : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)|| Input.GetAxisRaw("Vertical") > 0f) && !CR_running)
         {
-            m_priorLocation = transform.position;
+            if (m_isAxisInUse == false)
+            {
+                m_priorLocation = transform.position;
 
-            Vector3 relativeLocation = new Vector3(0f, 0.0f, m_moveDist); // changed to work on x,z plane
-            Vector3 targetLocation = transform.position + relativeLocation;
-            float timeDelta = 0.15f;
+                Vector3 relativeLocation = new Vector3(0f, 0.0f, m_moveDist); // changed to work on x,z plane
+                Vector3 targetLocation = transform.position + relativeLocation;
+                float timeDelta = 0.15f;
 
-            StartCoroutine(SmoothMove(targetLocation, timeDelta));
+                StartCoroutine(SmoothMove(targetLocation, timeDelta));
 
-            RayCastCheck(transform.forward);
+                RayCastCheck(transform.forward);
+                m_isAxisInUse = true;
+            }
 
         }
         else if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) || Input.GetAxisRaw("Vertical") < 0f) && !CR_running)
         {
-            m_priorLocation = transform.position;
+            if (m_isAxisInUse == false)
+            {
+                m_priorLocation = transform.position;
 
-            Vector3 relativeLocation = new Vector3(0f, 0.0f, m_moveDist); // changed to work on x,z plane
-            Vector3 targetLocation = transform.position - relativeLocation;
-            float timeDelta = 0.15f;
+                Vector3 relativeLocation = new Vector3(0f, 0.0f, m_moveDist); // changed to work on x,z plane
+                Vector3 targetLocation = transform.position - relativeLocation;
+                float timeDelta = 0.15f;
 
-            StartCoroutine(SmoothMove(targetLocation, timeDelta));
+                StartCoroutine(SmoothMove(targetLocation, timeDelta));
 
-            RayCastCheck(-transform.forward);
+                RayCastCheck(-transform.forward);
+                m_isAxisInUse = true;
+            }
 
         }
 		else if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || Input.GetAxisRaw("Horizontal") > 0f) && !CR_running)
         {
-            m_priorLocation = transform.position;
+            if (m_isAxisInUse == false)
+            {
+                m_priorLocation = transform.position;
 
-            Vector3 relativeLocation = new Vector3(m_moveDist, 0f, 0f);
-            Vector3 targetLocation = transform.position + relativeLocation;
-            float timeDelta = 0.15f;
+                Vector3 relativeLocation = new Vector3(m_moveDist, 0f, 0f);
+                Vector3 targetLocation = transform.position + relativeLocation;
+                float timeDelta = 0.15f;
 
-            StartCoroutine(SmoothMove(targetLocation, timeDelta));
+                StartCoroutine(SmoothMove(targetLocation, timeDelta));
 
-            RayCastCheck(transform.right);
+                RayCastCheck(transform.right);
+                m_isAxisInUse = true;
+            }
 
         }
         else if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetAxisRaw("Horizontal") < 0f) && !CR_running)
         {
-            m_priorLocation = transform.position;
+            if (m_isAxisInUse == false)
+            {
+                m_priorLocation = transform.position;
 
-            Vector3 relativeLocation = new Vector3(m_moveDist, 0f, 0f);
-            Vector3 targetLocation = transform.position - relativeLocation;
-            float timeDelta = 0.15f;
+                Vector3 relativeLocation = new Vector3(m_moveDist, 0f, 0f);
+                Vector3 targetLocation = transform.position - relativeLocation;
+                float timeDelta = 0.15f;
 
-            StartCoroutine(SmoothMove(targetLocation, timeDelta));
+                StartCoroutine(SmoothMove(targetLocation, timeDelta));
 
-            RayCastCheck(-transform.right);
+                RayCastCheck(-transform.right);
+                m_isAxisInUse = true;
+            }
 
         }
+
+        if (Input.GetAxisRaw("Vertical") == 0f && Input.GetAxisRaw("Horizontal") == 0f)
+        {
+            m_isAxisInUse = false;
+        }
+
     }
 
-    IEnumerator SmoothMove(Vector3 target, float delta)
+    public IEnumerator SmoothMove(Vector3 target, float delta)
     {
     	// check if on beat
     	this.gameManager.OnBeatInput();

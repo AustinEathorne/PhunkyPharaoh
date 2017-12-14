@@ -47,8 +47,11 @@ public class GameManager : MonoBehaviour {
     private bool m_isClubFloor1Active = true;
     private bool m_isClubFloor2Active = false;
 
+    [HideInInspector] public bool m_isDanceGame = false;
+
     [SerializeField] private GameObject m_clubFloor1Obj;
     [SerializeField] private GameObject m_clubFloor2Obj;
+    [SerializeField] private GameObject m_danceGameObj;
     [SerializeField] private GameObject m_danceFloorObj1;
     [SerializeField] private GameObject m_danceFloorObj2;
 
@@ -104,7 +107,7 @@ public class GameManager : MonoBehaviour {
 			this.IncreasePlayerPhunk(50.0f);
 		}
 
-        if(AudioManager.isOnBeat)
+        if(AudioManager.isOnBeat && !m_isDanceGame)
         {
             if(m_isClubFloor1Active)
             {
@@ -125,7 +128,13 @@ public class GameManager : MonoBehaviour {
                 m_isClubFloor2Active = false;
             }
         }
-	}
+        if(m_isDanceGame)
+        {
+            m_danceFloorObj1.SetActive(false);
+            m_danceFloorObj2.SetActive(false);
+            m_danceGameObj.SetActive(true);
+        }
+    }
 
 	public IEnumerator RunDialogueSequence(NpcClass npc)
 	{

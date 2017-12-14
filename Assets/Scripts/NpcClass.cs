@@ -63,6 +63,11 @@ public class NpcClass : MonoBehaviour
 		return this.m_dialogueLines.Count;
 	}
 
+    public void StartDanceGame(Vector3 target)
+    {
+        StartCoroutine(SmoothMove(target, m_timeDelta));
+    }
+
     IEnumerator SmoothMove(Vector3 target, float delta)
     {
         CR_running = true;
