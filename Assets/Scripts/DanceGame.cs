@@ -8,8 +8,6 @@ public class DanceGame : MonoBehaviour {
 
     [SerializeField] private Sprite m_spriteActiveTile;
 
-    [SerializeField] private GameObject m_NPCDanceLocation;
-    [SerializeField] private GameObject m_playerDanceLocation;
     [SerializeField] private GameObject m_centerTile;
     private GameObject m_lastTile = null;
     private GameObject m_currentTile = null;
@@ -19,9 +17,17 @@ public class DanceGame : MonoBehaviour {
 
     private int m_tileChoiceIndex = 0;
     private int m_index = 0;
+    [HideInInspector] public int m_playerHit = 0;
 
-    [SerializeField]private bool m_startDancePhase = false;
+    [SerializeField] private bool m_startDancePhase = false;
 
+    [SerializeField] private GameObject m_playerObj;
+    private CharacterMovement m_player;
+
+    private void Awake()
+    {
+        m_player = m_playerObj.GetComponent<CharacterMovement>();
+    }
 
     void Update ()
     {
@@ -29,16 +35,9 @@ public class DanceGame : MonoBehaviour {
         {
             SelectNextTile();
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Player" && other.GetComponent<CharacterMovement>().m_npcFollowing)
+        else if(AudioManager.isOnBeat && m_playerHit >= 4)
         {
-            NpcClass followingNPC = other.GetComponent<CharacterMovement>().m_hitNPC.GetComponent<NpcClass>();
-            followingNPC.m_correctDialogueCount = 0;
-            followingNPC.StartDanceGame(m_NPCDanceLocation.transform.position);
-            StartCoroutine(other.GetComponent<CharacterMovement>().SmoothMove(m_playerDanceLocation.transform.position, 0.15f));
+            SelectNextTile();           
         }
     }
 
@@ -53,6 +52,7 @@ public class DanceGame : MonoBehaviour {
                 m_currentTile = m_selectedDanceFloorTiles[m_index];
                 m_firstTileToSetBack = m_currentTile;
                 m_currentTile.GetComponent<DanceFloorTile>().m_activateDanceTile = true;
+                m_player.m_hitNPC.GetComponent<NpcClass>().StartDanceGame(m_currentTile.transform.position + new Vector3(0,0,1));
                 m_currentTile.GetComponent<SpriteRenderer>().sprite = m_spriteActiveTile;
                 m_lastTile = m_currentTile;
                 m_selectedDanceFloorTiles.Clear();
@@ -72,6 +72,7 @@ public class DanceGame : MonoBehaviour {
                     m_currentTile = m_selectedDanceFloorTiles[m_index];
                     m_secondTileToSetBack = m_currentTile;
                     m_currentTile.GetComponent<DanceFloorTile>().m_activateDanceTile = true;
+                    m_player.m_hitNPC.GetComponent<NpcClass>().StartDanceGame(m_currentTile.transform.position + new Vector3(0, 0, 1));
                     m_currentTile.GetComponent<SpriteRenderer>().sprite = m_spriteActiveTile;
                     m_selectedDanceFloorTiles.Clear();
                     m_index = 0;
@@ -93,6 +94,7 @@ public class DanceGame : MonoBehaviour {
                     m_currentTile = m_selectedDanceFloorTiles[m_index];
                     m_firstTileToSetBack = m_currentTile;
                     m_currentTile.GetComponent<DanceFloorTile>().m_activateDanceTile = true;
+                    m_player.m_hitNPC.GetComponent<NpcClass>().StartDanceGame(m_currentTile.transform.position + new Vector3(0, 0, 1));
                     m_currentTile.GetComponent<SpriteRenderer>().sprite = m_spriteActiveTile;
                     m_lastTile = m_currentTile;
                     m_selectedDanceFloorTiles.Clear();
@@ -106,6 +108,7 @@ public class DanceGame : MonoBehaviour {
                 m_secondTileToSetBack.GetComponent<DanceFloorTile>().Deactivate();
                 m_secondTileToSetBack = m_centerTile;
                 m_centerTile.GetComponent<DanceFloorTile>().m_activateDanceTile = true;
+                m_player.m_hitNPC.GetComponent<NpcClass>().StartDanceGame(m_centerTile.transform.position + new Vector3(0, 0, 1));
                 m_centerTile.GetComponent<SpriteRenderer>().sprite = m_spriteActiveTile;
                 m_index = 0;
                 m_tileChoiceIndex++;

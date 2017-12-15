@@ -9,8 +9,12 @@ public class DanceFloorTile : MonoBehaviour {
 
     private Sprite m_spriteOriginal;
 
+    [SerializeField] private GameObject m_danceGameObj;
+    private DanceGame m_danceGame;
+
     private void Awake()
     {
+        m_danceGame = m_danceGameObj.GetComponent<DanceGame>();
         m_spriteOriginal = gameObject.GetComponent<SpriteRenderer>().sprite;
     }
 
@@ -19,6 +23,7 @@ public class DanceFloorTile : MonoBehaviour {
         if(other.tag == "Player" && m_activateDanceTile)
         {
             Deactivate();
+            m_danceGame.m_playerHit++;
             Debug.Log("hitTile!!!!!!!!!!!!!!!");
         }
     }

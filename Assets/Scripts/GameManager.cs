@@ -128,6 +128,23 @@ public class GameManager : MonoBehaviour {
                 m_isClubFloor2Active = false;
             }
         }
+        else if(AudioManager.isOnBeat)
+        {
+            if (m_isClubFloor1Active)
+            {
+                m_clubFloor1Obj.SetActive(false);
+                m_clubFloor2Obj.SetActive(true);
+                m_isClubFloor2Active = true;
+                m_isClubFloor1Active = false;
+            }
+            else if (m_isClubFloor2Active)
+            {
+                m_clubFloor2Obj.SetActive(false);
+                m_clubFloor1Obj.SetActive(true);
+                m_isClubFloor1Active = true;
+                m_isClubFloor2Active = false;
+            }
+        }
         if(m_isDanceGame)
         {
             m_danceFloorObj1.SetActive(false);

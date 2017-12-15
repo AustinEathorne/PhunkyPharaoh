@@ -13,6 +13,8 @@ public class NpcClass : MonoBehaviour
 
     public int m_correctDialogueCount;
 
+    private Transform m_startPos;
+
 	[SerializeField]
 	private List<string> m_dialogueLines = new List<string>();
 	private Dictionary<int, List<string>> m_dialogueOptions = new Dictionary<int, List<string>>();
@@ -22,6 +24,7 @@ public class NpcClass : MonoBehaviour
 
     private void Awake()
     {
+        m_startPos = gameObject.transform;
         m_playerObj = GameObject.Find("Char_ProtoType");
         m_player = m_playerObj.GetComponent<CharacterMovement>();
     }
@@ -66,6 +69,16 @@ public class NpcClass : MonoBehaviour
     public void StartDanceGame(Vector3 target)
     {
         StartCoroutine(SmoothMove(target, m_timeDelta));
+    }
+
+    public void EndDanceGameWin()
+    {
+        StartCoroutine(SmoothMove(new Vector3(-3.2f, 0f, -2.3f), m_timeDelta));
+    }
+
+    public void endDanceGameLose()
+    {
+        StartCoroutine(SmoothMove(m_startPos.position, m_timeDelta));
     }
 
     IEnumerator SmoothMove(Vector3 target, float delta)
